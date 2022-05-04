@@ -1,4 +1,7 @@
+import { JsonPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../services/auth.service';
+
 
 @Component({
   selector: 'app-register',
@@ -7,8 +10,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _authService:AuthService) { }
+  registerUserData ={
+    email:'',
+    password:''
+  }
 
+  registerUser(){
+
+    //console.log(this.registerUserData)
+
+    this._authService.registerUser(this.registerUserData)
+      .subscribe(
+      res=>{console.log(res)},
+      err=>{console.log(err)}
+
+    )
+  }
   ngOnInit(): void {
   }
 
