@@ -1,5 +1,6 @@
 import { JsonPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
 
@@ -10,7 +11,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor(private _authService:AuthService) { }
+  constructor(private _authService:AuthService,private _router:Router) { }
   registerUserData ={
     email:'',
     password:''
@@ -22,7 +23,11 @@ export class RegisterComponent implements OnInit {
 
     this._authService.registerUser(this.registerUserData)
       .subscribe(
-      res=>{console.log(res)},
+      res=>{
+        localStorage.setItem('token',res.token)
+        console.log(res)
+        this._router.navigate(['/special'])
+      },
       err=>{console.log(err)}
 
     )

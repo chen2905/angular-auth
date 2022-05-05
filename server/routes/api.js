@@ -1,4 +1,5 @@
 const express = require("express");
+const jwt = require("jsonwebtoken")
 const router = express.Router();
 const User = require("../models/user");
 
@@ -25,7 +26,11 @@ router.post("/register", (req, res) => {
     if (error) {
       console.log(error);
     } else {
-      res.status(200).send(registeredUser);
+      let payload ={subject:registeredUser._id}
+      let token =jwt.sign(payload,'ThanksGod!')
+
+      //res.status(200).send(registeredUser);
+      res.status(200).send({token})
     }
   });
 });
@@ -42,7 +47,13 @@ router.post("/login", (req, res) => {
         if (user.password !== userData.password) {
           res.status(401).send("Invalid password");
         } else {
-          res.status(200).send(user);
+
+          let payload ={subject:user._id}
+          let token =jwt.sign(payload,'ThanksGod!')
+    
+          //res.status(200).send(registeredUser);
+          res.status(200).send({token})
+          //res.status(200).send(user);
         }
       }
     }
@@ -68,6 +79,18 @@ router.get("/events", (req, res) => {
       name: "Auto Expo 3",
       description: "lorem ipsum",
       date: "2022-05-03",
+    },
+    {
+      _id: "4",
+      name: "Auto Expo 4",
+      description: "lorem ipsum",
+      date: "2022-05-01",
+    },
+    {
+      _id: "5",
+      name: "Auto Expo 5",
+      description: "lorem ipsum",
+      date: "2022-05-02",
     },
   ];
   //res.send(events);
